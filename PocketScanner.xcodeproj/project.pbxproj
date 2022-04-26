@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B061FF9228177891008DD618 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B061FF9128177891008DD618 /* CameraViewController.swift */; };
 		B0988A512816B045009D5DC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0988A502816B045009D5DC3 /* AppDelegate.swift */; };
 		B0988A532816B045009D5DC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0988A522816B045009D5DC3 /* SceneDelegate.swift */; };
 		B0988A552816B045009D5DC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0988A542816B045009D5DC3 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B061FF9128177891008DD618 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		B0988A4D2816B045009D5DC3 /* PocketScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0988A502816B045009D5DC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0988A522816B045009D5DC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				B0988A592816B047009D5DC3 /* Assets.xcassets */,
 				B0988A5B2816B047009D5DC3 /* LaunchScreen.storyboard */,
 				B0988A5E2816B047009D5DC3 /* Info.plist */,
+				B061FF9128177891008DD618 /* CameraViewController.swift */,
 			);
 			path = PocketScanner;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0988A552816B045009D5DC3 /* ViewController.swift in Sources */,
+				B061FF9228177891008DD618 /* CameraViewController.swift in Sources */,
 				B0988A512816B045009D5DC3 /* AppDelegate.swift in Sources */,
 				B0988A532816B045009D5DC3 /* SceneDelegate.swift in Sources */,
 			);
