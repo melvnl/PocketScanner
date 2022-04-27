@@ -17,6 +17,8 @@
 		B0988A682816B047009D5DC3 /* PocketScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0988A672816B047009D5DC3 /* PocketScannerTests.swift */; };
 		B0988A722816B047009D5DC3 /* PocketScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0988A712816B047009D5DC3 /* PocketScannerUITests.swift */; };
 		B0988A742816B047009D5DC3 /* PocketScannerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0988A732816B047009D5DC3 /* PocketScannerUITestsLaunchTests.swift */; };
+		B0F4C56A2818DA7A001EDE95 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F4C5692818DA7A001EDE95 /* OnboardViewController.swift */; };
+		B0F4C56E2818DAA5001EDE95 /* Onboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0F4C56D2818DAA5001EDE95 /* Onboard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		B0988A6D2816B047009D5DC3 /* PocketScannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketScannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0988A712816B047009D5DC3 /* PocketScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketScannerUITests.swift; sourceTree = "<group>"; };
 		B0988A732816B047009D5DC3 /* PocketScannerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketScannerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B0F4C5692818DA7A001EDE95 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
+		B0F4C56D2818DAA5001EDE95 /* Onboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,7 @@
 		B0988A4F2816B045009D5DC3 /* PocketScanner */ = {
 			isa = PBXGroup;
 			children = (
+				B0F4C5682818DA65001EDE95 /* Onboarding */,
 				B0988A502816B045009D5DC3 /* AppDelegate.swift */,
 				B0988A522816B045009D5DC3 /* SceneDelegate.swift */,
 				B0988A542816B045009D5DC3 /* ViewController.swift */,
@@ -128,6 +133,15 @@
 				B0988A732816B047009D5DC3 /* PocketScannerUITestsLaunchTests.swift */,
 			);
 			path = PocketScannerUITests;
+			sourceTree = "<group>";
+		};
+		B0F4C5682818DA65001EDE95 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B0F4C5692818DA7A001EDE95 /* OnboardViewController.swift */,
+				B0F4C56D2818DAA5001EDE95 /* Onboard.storyboard */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +250,7 @@
 			files = (
 				B0988A5D2816B047009D5DC3 /* LaunchScreen.storyboard in Resources */,
 				B0988A5A2816B047009D5DC3 /* Assets.xcassets in Resources */,
+				B0F4C56E2818DAA5001EDE95 /* Onboard.storyboard in Resources */,
 				B0988A582816B045009D5DC3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0F4C56A2818DA7A001EDE95 /* OnboardViewController.swift in Sources */,
 				B0988A552816B045009D5DC3 /* ViewController.swift in Sources */,
 				B061FF9228177891008DD618 /* CameraViewController.swift in Sources */,
 				B0988A512816B045009D5DC3 /* AppDelegate.swift in Sources */,
