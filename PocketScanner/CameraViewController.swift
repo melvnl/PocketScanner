@@ -8,7 +8,7 @@
 import UIKit
 import Vision
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CameraViewController: UIViewController, UIImagePickerControllerDelegate,UITextViewDelegate,  UINavigationControllerDelegate {
     
     var ocrRequest = VNRecognizeTextRequest(completionHandler: nil)
 
@@ -16,63 +16,79 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @IBOutlet weak var myImg: UIImageView!
     @IBOutlet weak var scanButton: UIButton!
+    var imagePicker = UIImagePickerController()
+    
     @IBAction func openCamera(_ sender: Any) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-                    let imagePicker = UIImagePickerController()
-                print("Button capture")
-                    imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                    imagePicker.allowsEditing = true
-                    self.present(imagePicker, animated: true, completion: nil)
-                }
+        imagePicker =  UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera
+                present(imagePicker, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage imagePicker: UIImage!, editingInfo: NSDictionary!){
-            self.dismiss(animated: true, completion: { () -> Void in
-
-            })
-
-            myImg.image = imagePicker
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            
+            if let selectedImage = info[.originalImage] as? UIImage {
+                myImg.image = selectedImage
+            } else {
+                print("Image not found")
+            }
+            
+            picker.dismiss(animated: true, completion: nil)
         }
-    
-    func imagePickerControllerDidCancel(
-      _ picker: UIImagePickerController
-    ) {
-      dismiss(animated: true, completion: nil)
-    }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true, completion: nil)
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ocrTextView.delegate = self
 
         // Do any additional setup after loading the view.
+        myImg.layer.borderWidth = 1
+        myImg.layer.borderColor = UIColor.black.cgColor
+        myImg.layer.cornerRadius = 8
+        
+        ocrTextView.layer.borderWidth = 1
+        ocrTextView.layer.borderColor = UIColor.black.cgColor
+        ocrTextView.layer.cornerRadius = 8
+        ocrTextView.backgroundColor = UIColor.white
     }
     
     override func didReceiveMemoryWarning() {
             super.didReceiveMemoryWarning()
             // Dispose of any resources that can be recreated.
         }
-    
-    func configureOCR() {
-        ocrRequest = VNRecognizeTextRequest { (request, error) in
-        guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
-                
-        var ocrText = ""
-            for observation in observations {
-                guard let topCandidate = observation.topCandidates(1).first else { return }
-                        
-                ocrText += topCandidate.string + "\n"
-            }
-                    
-            DispatchQueue.main.async {
-                self.ocrTextView.text = ocrText
-                self.scanButton.isEnabled = true
-            }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let character = text.first, character.isNewline {
+            textView.resignFirstResponder()
+            return false
         }
-            
-        ocrRequest.recognitionLevel = .accurate
-        ocrRequest.recognitionLanguages = ["en-US", "en-GB"]
-        ocrRequest.usesLanguageCorrection = true
+        return true
     }
+    
+//    func configureOCR() {
+//        ocrRequest = VNRecognizeTextRequest { (request, error) in
+//        guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
+//
+//        var ocrText = ""
+//            for observation in observations {
+//                guard let topCandidate = observation.topCandidates(1).first else { return }
+//
+//                ocrText += topCandidate.string + "\n"
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.ocrTextView.text = ocrText
+//                self.scanButton.isEnabled = true
+//            }
+//        }
+            
+//        ocrRequest.recognitionLevel = .accurate
+//        ocrRequest.recognitionLanguages = ["en-US", "en-GB"]
+//        ocrRequest.usesLanguageCorrection = true
+//    }
     
 
     /*
@@ -86,3 +102,5 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     */
 
 }
+
+
