@@ -59,12 +59,14 @@ class OnboardViewController: UIViewController, UIScrollViewDelegate {
                     let txt1 = UILabel.init(frame: CGRect(x:32,y:imageView.frame.maxY+30,width:scrollWidth-64,height:30))
                     txt1.textAlignment = .left
                     txt1.font = UIFont.boldSystemFont(ofSize: 20.0)
+                    txt1.textColor = UIColor.black
                     txt1.text = titles[index]
 
                     let txt2 = UILabel.init(frame: CGRect(x:32,y:txt1.frame.maxY+10,width:315,height:100))
                     txt2.textAlignment = .left
                     txt2.numberOfLines = 8
                     txt2.font = UIFont.systemFont(ofSize: 16.0)
+                    txt2.textColor = UIColor.black
                     txt2.text = descs[index]
 
                     slide.addSubview(imageView)
