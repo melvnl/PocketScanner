@@ -7,8 +7,9 @@
 
 import UIKit
 import Vision
+import VisionKit
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate,UITextViewDelegate,  UINavigationControllerDelegate {
+class CameraViewController: UIViewController,UITextViewDelegate {
     
     var ocrRequest = VNRecognizeTextRequest(completionHandler: nil)
 
@@ -16,13 +17,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate,UI
     
     @IBOutlet weak var myImg: UIImageView!
     @IBOutlet weak var scanButton: UIButton!
-    var imagePicker = UIImagePickerController()
     
     @IBAction func openCamera(_ sender: Any) {
-        imagePicker =  UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = .camera
-                present(imagePicker, animated: true, completion: nil)
+        let scanVC = VNDocumentCameraViewController()
+        scanVC.delegate = self
+        present(scanVC, animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -54,12 +53,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate,UI
         ocrTextView.layer.borderColor = UIColor.black.cgColor
         ocrTextView.layer.cornerRadius = 8
         ocrTextView.backgroundColor = UIColor.white
+        
+        configureOCR()
     }
     
-    override func didReceiveMemoryWarning() {
-            super.didReceiveMemoryWarning()
-            // Dispose of any resources that can be recreated.
-        }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if let character = text.first, character.isNewline {
             textView.resignFirstResponder()
@@ -68,39 +65,72 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate,UI
         return true
     }
     
-//    func configureOCR() {
-//        ocrRequest = VNRecognizeTextRequest { (request, error) in
-//        guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
-//
-//        var ocrText = ""
-//            for observation in observations {
-//                guard let topCandidate = observation.topCandidates(1).first else { return }
-//
-//                ocrText += topCandidate.string + "\n"
-//            }
-//
-//            DispatchQueue.main.async {
-//                self.ocrTextView.text = ocrText
-//                self.scanButton.isEnabled = true
-//            }
-//        }
-            
-//        ocrRequest.recognitionLevel = .accurate
-//        ocrRequest.recognitionLanguages = ["en-US", "en-GB"]
-//        ocrRequest.usesLanguageCorrection = true
-//    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc private func scanDocument() {
+        let scanVC = VNDocumentCameraViewController()
+        scanVC.delegate = self
+        present(scanVC, animated: true)
     }
-    */
+    
+    
+    private func processImage(_ image: UIImage) {
+        guard let cgImage = image.cgImage else { return }
 
+        ocrTextView.text = ""
+        scanButton.isEnabled = false
+        
+        let requestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        do {
+            try requestHandler.perform([self.ocrRequest])
+        } catch {
+            print(error)
+        }
+    }
+    
+    func configureOCR() {
+        ocrRequest = VNRecognizeTextRequest { (request, error) in
+        guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
+
+        var ocrText = ""
+            for observation in observations {
+                guard let topCandidate = observation.topCandidates(1).first else { return }
+
+                ocrText += topCandidate.string + "\n"
+            }
+
+            DispatchQueue.main.async {
+                self.ocrTextView.text = ocrText
+                self.scanButton.isEnabled = true
+            }
+        }
+            
+        ocrRequest.recognitionLevel = .accurate
+        ocrRequest.recognitionLanguages = ["en-US", "en-GB"]
+        ocrRequest.usesLanguageCorrection = true
+         
+    }
+
+}
+
+extension CameraViewController: VNDocumentCameraViewControllerDelegate {
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        guard scan.pageCount >= 1 else {
+            controller.dismiss(animated: true)
+            return
+        }
+        
+        myImg.image = scan.imageOfPage(at: 0)
+        processImage(scan.imageOfPage(at: 0))
+        controller.dismiss(animated: true)
+    }
+    
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
+        //Handle properly error
+        controller.dismiss(animated: true)
+    }
+    
+    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+        controller.dismiss(animated: true)
+    }
 }
 
 
